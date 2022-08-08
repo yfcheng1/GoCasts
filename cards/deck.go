@@ -1,10 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 // create a new type of 'deck', which is a slice of strings (like a class)
 type deck []string
 
+// create a new deck
 func newDeck() deck {
 	cards := deck{}
 
@@ -31,4 +36,15 @@ func (d deck) print() {
 // function deal return two values (type deck)
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:]
+}
+
+// turn deck to string and join
+func (d deck) toString() string {
+	s := []string(d)
+	return strings.Join(s, ", ")
+}
+
+// save string to file
+func (d deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
