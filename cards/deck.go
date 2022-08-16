@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // create a new type of 'deck', which is a slice of strings (like a class)
@@ -64,9 +65,15 @@ func newDeckFromFile(filename string) deck {
 
 // shuffle the card from the deck (not the ideal randomize method)
 func (d deck) shuffle() {
+	// https://pkg.go.dev/math/rand#Source
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+
 	for i := range d {
-		newPosition := rand.Intn(len(d) - 1)
-		// swap the postion b/t i and newPosition
+		// newPosition := rand.Intn(len(d) - 1)
+		newPosition := r.Intn(len(d) - 1)
+
+		// swap the postion b/t i and newPosition (pseudo-random)
 		d[i], d[newPosition] = d[newPosition], d[i]
 	}
 }
